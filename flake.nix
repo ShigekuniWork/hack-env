@@ -21,6 +21,7 @@
             python3
             go
             git
+            thc-hydra
           ];
         };
       });
