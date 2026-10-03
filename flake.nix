@@ -13,11 +13,10 @@
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
-            namp
+            nmap
             ffuf
             curl
             jq
-
             ripgrep
             python3
             go
