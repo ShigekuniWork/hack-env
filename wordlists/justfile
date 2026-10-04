@@ -15,10 +15,10 @@ setup:
 [group('setup')]
 update:
     # SecLists
-    git -C wordlists/SecLists pull --ff-only
+    git -C SecLists pull --ff-only
 
     # username-anarchy
-    git -C tools/username-anarchy pull --ff-only
+    git -C username-anarchy pull --ff-only
 
 # 氏名からusername-listの作成
 [group('command')]

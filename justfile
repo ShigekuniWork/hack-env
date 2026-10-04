@@ -9,13 +9,11 @@ wordlists_justfile := "wordlists/justfile"
 # 環境のセットアップを行う
 [group('setup')]
 setup:
-    just --justfile {{auth_justfile}} setup
     just --justfile {{wordlists_justfile}} setup
 
 # 環境のアップデート
 [group('setup')]
 update:
-    just --justfile {{auth_justfile}} update
     just --justfile {{wordlists_justfile}} update
 
 # 認証関連のコマンドを使用する
