@@ -247,6 +247,11 @@ pyrightconfig.json
 # wordlists
 
 wordlists/*
+!justfile
+
+# tools
+
+tools/username-anarchy/
 
 # tmp
 

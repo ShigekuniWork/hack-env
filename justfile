@@ -1,10 +1,29 @@
 _default:
     @just --list
 
-setup-wordlists:
-    mkdir -p wordlists
-    test -d wordlists/SecLists || \
-        git clone --depth 1 https://github.com/danielmiessler/SecLists.git wordlists/SecLists
+# Authのjustfile
+auth_justfile := "auth/justfile"
+# WordListsのjustfile
+wordlists_justfile := "wordlists/justfile"
 
-update-wordlists:
-    git -C wordlists/SecLists pull --ff-only
+# 環境のセットアップを行う
+[group('setup')]
+setup:
+    just --justfile {{auth_justfile}} setup
+    just --justfile {{wordlists_justfile}} setup
+
+# 環境のアップデート
+[group('setup')]
+update:
+    just --justfile {{auth_justfile}} update
+    just --justfile {{wordlists_justfile}} update
+
+# 認証関連のコマンドを使用する
+[group('command')]
+auth *args:
+    just --justfile {{auth_justfile}} {{args}}
+
+# ワードリスト関連のコマンドを使用する
+[group('command')]
+wordlists *args:
+    just --justfile {{wordlists_justfile}} {{args}}

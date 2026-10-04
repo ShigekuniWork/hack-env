@@ -1,0 +1,31 @@
+_default:
+    @just --list
+
+# 環境構築
+[group('setup')]
+setup:
+    # SecLists
+    test -d SecLists || \
+        git clone --depth 1 https://github.com/danielmiessler/SecLists.git SecLists
+    # username-anarchy
+    test -d username-anarchy || \
+        git clone --depth 1 https://github.com/urbanadventurer/username-anarchy.git username-anarchy
+
+# 環境のアップデート
+[group('setup')]
+update:
+    # SecLists
+    git -C wordlists/SecLists pull --ff-only
+
+    # username-anarchy
+    git -C tools/username-anarchy pull --ff-only
+
+# 氏名からusername-listの作成
+[group('command')]
+gen-username-list first last output:
+    ./username-anarchy/username-anarchy '{{first}}' '{{last}}' > 'gen/{{output}}'
+
+# 人物情報からパスワード候補を生成
+[group('command')]
+gen-passowrd-list:
+    cupp -i
