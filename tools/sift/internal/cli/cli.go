@@ -4,7 +4,6 @@ package cli
 import (
 	"errors"
 	"flag"
-	"fmt"
 	"io"
 	"os"
 	"tools/sift/internal/filter"
@@ -12,6 +11,20 @@ import (
 
 // Run handles command-line options and file ownership for the filter.
 func Run(args []string, stdin io.Reader, stdout, stderr io.Writer) (err error) {
+	if len(args) == 0 {
+		if file, ok := stdin.(*os.File); ok {
+			info, statErr := file.Stat()
+			if statErr != nil {
+				return &FileError{Op: "stat input", Path: "-", Err: statErr}
+			}
+
+			if info.Mode()&os.ModeCharDevice != 0 {
+				newOptions(false, stderr).help()
+				return nil
+			}
+		}
+	}
+
 	if len(args) > 0 && args[0] == "regex" {
 		return runRegex(args[1:], stdout, stderr)
 	}
@@ -20,24 +33,13 @@ func Run(args []string, stdin io.Reader, stdout, stderr io.Writer) (err error) {
 }
 
 func runFilter(args []string, stdin io.Reader, stdout, stderr io.Writer) (err error) {
-	flags := flag.NewFlagSet("sift", flag.ContinueOnError)
-	flags.SetOutput(stderr)
-
-	inputPath := flags.String("input", "-", "input file (- for standard input)")
-	outputPath := flags.String("output", "sift.txt", "output file (- for standard output)")
-
-	flags.Usage = func() {
-		_, _ = fmt.Fprintln(stderr,
-			"Usage: sift [-input path] [-output path]"+
-				" [range=min..max] [initial=alpha|digit|alnum|upper]"+
-				" [charset=alpha|digit|alnum|upper] [format=url|email|domain] [match=pattern]",
-		)
-		flags.PrintDefaults()
-		_, _ = fmt.Fprintln(stderr, "Generate a PCRE2 expression: sift regex [-output path] [conditions...]")
-	}
+	options := newOptions(false, stderr)
+	flags := options.flags
+	inputPath, outputPath := options.inputPath, options.outputPath
 
 	if parseErr := flags.Parse(args); parseErr != nil {
 		if errors.Is(parseErr, flag.ErrHelp) {
+			options.help()
 			return nil
 		}
 

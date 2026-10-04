@@ -9,16 +9,13 @@ import (
 )
 
 func runRegex(args []string, stdout, stderr io.Writer) (err error) {
-	flags := flag.NewFlagSet("sift regex", flag.ContinueOnError)
-	flags.SetOutput(stderr)
-	outputPath := flags.String("output", "-", "output file (- for standard output)")
-	flags.Usage = func() {
-		_, _ = fmt.Fprintln(stderr, "Usage: sift regex [-output path] [conditions...]")
-		flags.PrintDefaults()
-	}
+	options := newOptions(true, stderr)
+	flags := options.flags
+	outputPath := options.outputPath
 
 	if parseErr := flags.Parse(args); parseErr != nil {
 		if errors.Is(parseErr, flag.ErrHelp) {
+			options.help()
 			return nil
 		}
 
