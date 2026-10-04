@@ -11,24 +11,24 @@ tools_justfile := "tools/justfile"
 # 環境のセットアップを行う
 [group('setup')]
 setup:
-    just --justfile {{wordlists_justfile}} setup
+    @just --justfile {{wordlists_justfile}} setup
 
 # 環境のアップデート
 [group('setup')]
 update:
-    just --justfile {{wordlists_justfile}} update
+    @just --justfile {{wordlists_justfile}} update
 
 # 認証関連のコマンドを使用する
 [group('command')]
 auth *args:
-    just --justfile {{auth_justfile}} {{args}}
+    @just --justfile {{auth_justfile}} {{args}}
 
 # ワードリスト関連のコマンドを使用する
 [group('command')]
 wordlists *args:
-    just --justfile {{wordlists_justfile}} {{args}}
+    @just --justfile {{wordlists_justfile}} {{args}}
 
 # 独自ツール群
 [group('command')]
 tools *args:
-    just --justfile {{tools_justfile}} {{args}}
+    @just --justfile {{tools_justfile}} {{args}}

@@ -25,9 +25,9 @@ sift *args:
 # Sift: 入力・出力ファイルを指定して絞り込む。
 [group('sift')]
 sift-filter input output *args:
-    go run ./sift -input {{quote(input)}} -output {{quote(output)}} {{args}}
+    @go run ./sift -input {{quote(input)}} -output {{quote(output)}} {{args}}
 
 # Sift: 条件から PCRE2 正規表現を生成する（既定は標準出力）。
 [group('sift')]
 sift-regex *args:
-    go run ./sift regex {{args}}
+    @go run ./sift regex {{args}}
