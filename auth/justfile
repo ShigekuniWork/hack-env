@@ -2,11 +2,11 @@ _default:
     @just --list
 
 # Basic認証用リクエスト
-[group('basic')]
+[group('command')]
 basic user password url:
     curl -i -u '{{user}}:{{password}}' '{{url}}'
 
 # フォーム認証用リクエスト
-[group('form')]
+[group('command')]
 form user password url:
-    curl -i -X POST -d 'username={{user}}' -d 'password={{password}}' '{{url}}'
+    curl -i -L -c cookies.txt -b cookies.txt -d 'username={{user}}' -d 'password={{password}}' '{{url}}'

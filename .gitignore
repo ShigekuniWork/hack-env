@@ -247,3 +247,7 @@ pyrightconfig.json
 # wordlists
 
 wordlists/*
+
+# tmp
+
+cookies.txt
