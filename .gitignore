@@ -248,6 +248,7 @@ pyrightconfig.json
 
 wordlists/*
 !justfile
+!README.md
 
 # tools
 
