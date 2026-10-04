@@ -50,10 +50,9 @@
 Go コードを変更した場合は、モジュールルート（このディレクトリの親）で以下を実行してください。
 
 ```sh
-golangci-lint fmt
-golangci-lint run ./...
-go test ./...
-go vet ./...
+just fmt
+just lint
+just test
 ```
 
 lint の指摘は原因を修正し、検査設定の緩和や理由のない抑制で回避しないでください。

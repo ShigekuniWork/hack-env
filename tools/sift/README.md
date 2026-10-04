@@ -18,6 +18,21 @@ go run ./sift -input words.txt initial=upper 'match=Ab*'
 - 引数なしで端末などの文字デバイスから起動するとヘルプを表示します。パイプやファイルから入力する場合は、引数なしでも全行を処理します。
 - 失敗時は標準エラー出力にエラーと対象コマンドのヘルプを表示し、終了コード1で終了します。
 
+`tools` ディレクトリでは `just sift` でも実行できます。リポジトリルートでは `just tools sift` を使います。
+
+```sh
+just sift -h
+just sift regex initial=upper "'match=Hello world*'"
+just sift -input words.txt -output result.txt "'match=*abc*'"
+just sift-filter words.txt result.txt "'match=*abc*'"
+just sift-regex initial=upper "'match=Hello world*'"
+just sift-regex -output pattern.txt format=email
+```
+
+`sift-filter` は入力・出力の順に指定し、その後に条件を渡します。`-` で標準入出力も指定できます。
+`sift-regex` は条件を受け取り、既定で標準出力へ生成します。保存する場合は条件より前に `-output` を指定してください。
+just の `{{args}}` はシェルで展開されるため、空白や `*` を含む条件には、上の例のように引用符自体を渡してください。
+
 条件:
 
 - `range=min..max`: Unicode の文字数による範囲（両端を含む）。片方の省略が可能。

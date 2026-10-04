@@ -5,6 +5,8 @@ _default:
 auth_justfile := "auth/justfile"
 # WordListsのjustfile
 wordlists_justfile := "wordlists/justfile"
+# 独自ツールのjustfile
+tools_justfile := "tools/justfile"
 
 # 環境のセットアップを行う
 [group('setup')]
@@ -25,3 +27,8 @@ auth *args:
 [group('command')]
 wordlists *args:
     just --justfile {{wordlists_justfile}} {{args}}
+
+# 独自ツール群
+[group('command')]
+tools *args:
+    just --justfile {{tools_justfile}} {{args}}
